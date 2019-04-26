@@ -1718,6 +1718,7 @@ continue_boot:
 
 void write_device_info_mmc(device_info *dev)
 {
+#ifndef SAFE_MODE
 	struct device_info *info = (void*) info_buf;
 	unsigned long long ptn = 0;
 	unsigned long long size;
@@ -1755,6 +1756,9 @@ void write_device_info_mmc(device_info *dev)
 		dprintf(CRITICAL, "ERROR: Cannot write device info\n");
 		return;
 	}
+#else
+	dprintf(CRITICAL, "Ignoring attempt to write device info\n");
+#endif
 }
 
 void read_device_info_mmc(device_info *dev)
@@ -1817,6 +1821,7 @@ void read_device_info_mmc(device_info *dev)
 
 void write_device_info_flash(device_info *dev)
 {
+#ifndef SAFE_MODE
 	struct device_info *info = memalign(PAGE_SIZE, ROUNDUP(BOOT_IMG_MAX_PAGE_SIZE, PAGE_SIZE));
 	struct ptentry *ptn;
 	struct ptable *ptable;
@@ -1849,6 +1854,9 @@ void write_device_info_flash(device_info *dev)
 			return;
 	}
 	free(info);
+#else
+	dprintf(CRITICAL, "Ignoring attempt to write device info\n");
+#endif
 }
 
 static int read_allow_oem_unlock(device_info *dev)
@@ -1888,6 +1896,7 @@ static int read_allow_oem_unlock(device_info *dev)
 
 static int write_allow_oem_unlock(bool allow_unlock)
 {
+#ifndef SAFE_MODE
 	unsigned offset;
 	int index;
 	unsigned long long ptn;
@@ -1925,6 +1934,10 @@ static int write_allow_oem_unlock(bool allow_unlock)
 	}
 
 	return 0;
+#else
+	dprintf(CRITICAL, "Ignoring attempt to allow OEM unlock\n");
+	return -1;
+#endif
 }
 
 void read_device_info_flash(device_info *dev)
