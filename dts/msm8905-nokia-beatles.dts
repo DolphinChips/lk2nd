@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
+/dts-v1/;
+
+/include/ "msm8909.dtsi"
+
+/ {
+	// This is used by the bootloader to find the correct DTB 
+	qcom,msm-id = <0x14b 0x00>;
+	qcom,board-id= <0x1000b 0x100>;
+
+	model = "Qualcomm Technologies, Inc. MSM8905 QRD SKUB";
+	compatible = "qcom,msm8909-qrd", "qcom,msm8909", "qcom,qrd", "lk2nd,device";
+
+	// Bootloader won't continue if it can't delete some nodes from below
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges = <0x0 0x0 0x0 0xffffffff>;
+
+		qcom,memshare {
+			qcom,client_1 {
+				qcom,peripheral-size = <0x2000000>;
+			};
+		};
+	};
+
+};

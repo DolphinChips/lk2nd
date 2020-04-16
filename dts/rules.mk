@@ -13,3 +13,8 @@ DTBS += \
 	$(LOCAL_DIR)/msm8916-samsung-r06.dtb \
 	$(LOCAL_DIR)/msm8916-samsung-r08.dtb
 endif
+
+ifeq ($(PROJECT), msm8909-secondary)
+DTBS += \
+	$(LOCAL_DIR)/msm8905-nokia-beatles.dtb
+endif
